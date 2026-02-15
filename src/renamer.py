@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-SEC Filing PDF Renamer
+SEC Filing PDF Renamer x
 
 This script renames SEC filing PDFs (like 13G/A, 10-Q, 10-K, 8-K, etc.) based on their content.
 It extracts the filing date, document type, ticker, filer name, and ownership percentage, 
