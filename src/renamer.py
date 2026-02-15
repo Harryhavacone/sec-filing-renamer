@@ -10,6 +10,7 @@ YYYY-MM-DD_FILING-TYPE_TICKER_FILER-NAME_X-XXPCT.pdf
 Usage:
     python rename_earnings_pdfs.py /path/to/folder
     python rename_earnings_pdfs.py /path/to/folder --dry-run
+    python rename_earnings_pdfs.py /path/to/folder --recursive
 """
 
 import os
@@ -269,16 +270,17 @@ def generate_new_filename(pdf_path, dry_run=False):
     
     return new_name
 
-def rename_pdfs_in_folder(folder_path, dry_run=False):
+def rename_pdfs_in_folder(folder_path, dry_run=False, recursive=False):
     """Rename all PDF files in the specified folder."""
     folder = Path(folder_path)
-    
+
     if not folder.exists() or not folder.is_dir():
         print(f"Error: {folder_path} is not a valid directory")
         return
-    
+
     # Find all PDF files
-    pdf_files = list(folder.glob('*.pdf'))
+    glob_pattern = '**/*.pdf' if recursive else '*.pdf'
+    pdf_files = list(folder.glob(glob_pattern))
     
     if not pdf_files:
         print(f"No PDF files found in {folder_path}")
@@ -325,11 +327,12 @@ def main():
     
     folder_path = sys.argv[1]
     dry_run = '--dry-run' in sys.argv or '-n' in sys.argv
-    
+    recursive = '--recursive' in sys.argv or '-r' in sys.argv
+
     if dry_run:
         print("=== DRY RUN MODE - No files will be renamed ===\n")
-    
-    rename_pdfs_in_folder(folder_path, dry_run)
+
+    rename_pdfs_in_folder(folder_path, dry_run, recursive)
 
 if __name__ == '__main__':
     main()
